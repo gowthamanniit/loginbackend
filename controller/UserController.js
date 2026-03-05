@@ -1,11 +1,16 @@
 import User from '../model/UserModel.js'
 export const login = async(req,res) =>{
     try {
-          const  newUser = new User(req.body);
-          const {username,password}=newUser;
+        console.log(req.query)
+          
+          //const  newUser = new User(req.body);
+          //const {username,password}=newUser;
+
           //const  {email} = newUser;
          // const {username,password}=req.body;
-          const un = await User.findOne({username,password});
+        
+        const {username,password}=req.query
+         const un = await User.findOne({username,password});
           if(!un) {
                    return res.status(400).json({message : "User not found!!!"});
           }
