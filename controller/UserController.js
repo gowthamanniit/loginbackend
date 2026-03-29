@@ -1,4 +1,6 @@
 import User from '../model/UserModel.js'
+import Product from '../model/ProductModel.js'
+
 export const login = async(req,res) =>{
     try {
         console.log(req.query)
@@ -25,4 +27,28 @@ export const login = async(req,res) =>{
     } catch (error) {
        res.status(500).json({errorMessage:error.message})
     }
+};
+
+export const saveitem = async (req,res)=>{
+  try{
+    //console.log("save data")
+    const newdata=new Product(req.body)
+    await newdata.save()
+    res.status(200).json({message:"products added successfully."});
+  }
+  catch(error){
+    res.status(500).json({errorMessage:error.message})
+  }
+}
+
+export const getAllProducts = async (req,res) => {
+  try{
+        const productData = await Product.find();
+        if (!productData || productData.length ===0){
+              return res.status(404).json({message:"data not found."});
+        }
+        res.status(200).json(productData);
+  }catch(error) {
+        res.status(500).json({errorMessage:error.message});
+  }
 };
